@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8
-#http://huntingbears.com.ve/operaciones-de-lectura-y-escritura-de-particiones-con-python-parted.html
+"""
+#Antonio Villanueva Segura partitionner un disque et copier les informations
+http://huntingbears.com.ve/operaciones-de-lectura-y-escritura-de-particiones-con-python-parted.html
+"""
 import parted,_ped
-import os #Llamadas al sistema
-import sys #sistema
-import time #tempo
+import os #Appels système
+import sys #système
+import time #temps
 
 def analyseDisques():
 	""" Liste des disques et paramètres divers"""
@@ -50,7 +53,7 @@ def creaTablaParticion(disque='/dev/sdb'):
 		sys.exit()
 	time.sleep(1)
 
-def banderas(disk='/dev/sdb',activa=True):
+def drapeaux(disk='/dev/sdb',activa=True):
 	""" Créer et supprimer des drapeaux"""
 	""" Nombre 	Constant _ped 	Sens
 		1 	_ped.PARTITION_BOOT 	Drapeau de démarrage
@@ -78,7 +81,7 @@ def banderas(disk='/dev/sdb',activa=True):
 	#Vérifier l'opération précédente avant commit	
 	disk.commit()
 
-def creaParticion(disque='/dev/sdb',start=2048,end=2050047):
+def createPartition(disque='/dev/sdb',start=2048,end=2050047):
 	""" Créer une partition """
 	#start et end ils sont des secteurs !!!!!
 	#Vous ne pouvez pas partitionner là où une partition existe Les secteurs doivent être libres
@@ -106,7 +109,7 @@ def creaParticion(disque='/dev/sdb',start=2048,end=2050047):
 	time.sleep(1)		
 		
 		
-def creaSistemaArchivos(disque='/dev/sdb1',tipo='fat32'):
+def creeSystemeFichiers(disque='/dev/sdb1',tipo='fat32'):
 	"""
 	Cree système de fichiers
 	btrfs 	mkfs.btrfs [PART] 	btrfs filesystem resize [TAM] [PART]
@@ -134,7 +137,7 @@ def creaSistemaArchivos(disque='/dev/sdb1',tipo='fat32'):
 	os.system(commande)
 	time.sleep(1)
 
-def desmontarDisco(disque='/dev/sdb'):
+def demonterDisque(disque='/dev/sdb'):
 	"""Analyser les partitions montées sdb1 sdb2 sdb3
 	les disques apparaissent dans /etc/mtab ou /etc/mount
 	"""	
@@ -160,16 +163,16 @@ print ("python parted")
 #analyseDisques()
 #analysePartition()
 #creaTablaParticion()
-desmontarDisco()
+demonterDisque()
 creaTablaParticion()
 
-creaParticion() #Fat
-creaParticion('/dev/sdb',2050048,976773119) #Ext4
+createPartition() #Fat
+createPartition('/dev/sdb',2050048,976773119) #Ext4
 
 resetPartition('/dev/sdb1')
 resetPartition('/dev/sdb2')
 
 
-creaSistemaArchivos()#Fat
-creaSistemaArchivos('/dev/sdb2','ext4')#ext4
+creeSystemeFichiers()#Fat
+creeSystemeFichiers('/dev/sdb2','ext4')#ext4
 
