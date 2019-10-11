@@ -9,6 +9,7 @@ import os #Appels système
 import sys #système
 import time #temps
 
+
 def analyseDisques():
 	""" Liste des disques et paramètres divers"""
 	disques=parted.getAllDevices()
@@ -30,13 +31,13 @@ def analysePartition(disque='/dev/sdb'):
 	print ("Espacio libre ",disque.getFreeSpacePartitions())
 	for particion in disque.partitions:
 		print ("\n")
-		print (particion.type) #Type partition
-		print (particion.number) #numéro de partition
-		print (particion.path ) #Chemin de partition
-		print (particion.geometry.start) #Début de la partition en secteurs
-		print (particion.geometry.end) #Fin de la partition en secteurs
-		print (particion.geometry.length) #Taille de la partition en secteurs
-		print (particion.getFlagsAsString()) #Drapeaux de partition
+		print ("Type partition = ",particion.type) #Type partition
+		print ("numéro de partition = ",particion.number) #numéro de partition
+		print ("Chemin de partition = ",particion.path ) #Chemin de partition
+		print ("Début de la partition en secteurs START= ",particion.geometry.start) #Début de la partition en secteurs
+		print ("Fin de la partition en secteurs END=",particion.geometry.end) #Fin de la partition en secteurs
+		print ("Taille de la partition en secteurs =",particion.geometry.length) #Taille de la partition en secteurs
+		print ("Drapeaux de partition = ",particion.getFlagsAsString()) #Drapeaux de partition
 		
 		print ("----->" ,particion.fileSystem)
 		
@@ -94,13 +95,15 @@ def createPartition(disque='/dev/sdb',start=2048,end=2050047):
 	1 	_ped.PARTITION_LOGICAL 	Partition logique
 	2 	_ped.PARTITION_EXTENDED	Partition étendue
 	"""
+	
+	print ("disque =",disque," , START = ",start,", END = ",end)
 	ptype=_ped.PARTITION_NORMAL	
 	dev=parted.Device(disque)
 	disk=parted.Disk(dev)
 	
 	geometry=parted.Geometry(device=dev,start=start,end=end)
-	constraint=parted.Constraint(exactGeom=geometry)
 	partition=parted.Partition(disk=disk,type=ptype,geometry=geometry)
+	constraint=parted.Constraint(exactGeom=geometry)
 	
 	if disk.addPartition(partition=partition,constraint=constraint):
 		disk.commit()
@@ -158,21 +161,41 @@ def resetPartition(disque='/dev/sdb'):
 	os.system (commande)	
 	
 
+#-----------------------------------------------------------------------
 	
-print ("python parted")
+print (" - Axiome Concept -")
+
+disques=parted.getAllDevices() #Recupere touts les disques 
+disque=str(disques[-1].path) #Recupere le dernier disque ça evite /dev/sda
+fin=disques[-1].length #Recupere nombre de secteurs 
+dernierSect=fin-1 #Dernier Secteur
+print ("Repertoire = ,",disque)
+
+if '/dev/sda' in disque: #Si seulement disque de systeme exit 
+	sys.exit()
+
+print ("fin =",fin)
+
 #analyseDisques()
-#analysePartition()
+#analysePartition(disque)
 #creaTablaParticion()
-demonterDisque()
-creaTablaParticion()
 
-createPartition() #Fat
-createPartition('/dev/sdb',2050048,976773119) #Ext4
+#Demonter disque
+demonterDisque(disque)
 
-resetPartition('/dev/sdb1')
-resetPartition('/dev/sdb2')
+#Cree Table de Partition
+creaTablaParticion(disque)
 
+#Cree Partition HD
+createPartition(disque,2048,2050047) #Fat
+#createPartition('/dev/sdb',2050048,976773119) #Ext4
+createPartition(disque,2050048,dernierSect-2048) #Ext4 dernier Secteur -2048
 
-creeSystemeFichiers()#Fat
-creeSystemeFichiers('/dev/sdb2','ext4')#ext4
+#Reset Partition 
+resetPartition(disque+'1')
+resetPartition(disque+'2')
+
+#Cree systeme de fichiers fat32 et ext4
+creeSystemeFichiers(disque+'1','fat32')#Fat
+creeSystemeFichiers(disque+'2','ext4')#ext4
 
