@@ -47,24 +47,7 @@ class disk ():
 		time.sleep(1)			
 					
 	def creeTablePartition(self):
-		"""Créer une nouvelle table d
-		Efface signaturev disque   wipefs --all /dev/sdb2
-		/dev/sdb2 : 2 octets ont été effacés à l'index 0x00000438 (ext4) : 53 ef
-		Cree Systeme fichiers fat
-
-		Créé le systeme de fichiers  mkfs.fat -F32 -v -I -n "BOOT" /dev/sdb1
-		mkfs.fat 3.0.28 (2015-05-16)
-		/dev/sdb1 has 255 heads and 63 sectors per track,
-		hidden sectors 0x0800;
-		logical sector size is 512,
-		using 0xf8 media descriptor, with 2048000 sectors;
-		drive number 0x80;
-		filesystem has 2 32-bit FATs and 8 sectors per cluster.
-		FAT size is 1997 sectors, and provides 255496 clusters.
-		There are 32 reserved sectors.
-		Volume ID is 2107cb40, volume label BOOT       .
-		Cree Systeme fichiers ext4
-		e partition sur un disque"""	
+		"""Créer une nouvelle table de partition sur un disque"""	
 		dev=parted.Device(self.disque)
 		table=parted.freshDisk(dev,'gpt') #gpt msdos
 		if not table.commit(): #Si c'est Vrai on le commit 
@@ -112,37 +95,24 @@ class disk ():
 		os.system(commande)
 		time.sleep(1)	
 		
-	def formatDisque (self):
-		"""Boucle principal""" 
-			
-		#disque= disk()#Créé une instance de la classe disk
+#Boucle principal 
+	
+disque= disk()#Créé une instance de la classe disk
 
-		self.demonterDisque() #Demonter disques
+disque.demonterDisque() #Demonter disques
 
-		self.creeTablePartition() #Cree nouvelle Table Partitions 
+disque.creeTablePartition() #Cree nouvelle Table Partitions 
 
-		print ("Cree Partition fat")
-		self.createPartitions(PREMIER_SECTEUR_FAT,DERNIER_SECTEUR_FAT) #Cree partition FAT32 BOOT
-		print ("Cree Partition ext4")
-		self.createPartitions(DERNIER_SECTEUR_FAT+1,self.dernierSecteur()-2048) #Cree partition EXT4 rootfs
+print ("Cree Partition fat")
+disque.createPartitions(PREMIER_SECTEUR_FAT,DERNIER_SECTEUR_FAT) #Cree partition FAT32 BOOT
+print ("Cree Partition ext4")
+disque.createPartitions(DERNIER_SECTEUR_FAT+1,disque.dernierSecteur()-2048) #Cree partition EXT4 rootfs
 
-		self.resetPartitions()#Reset Partitions /sdx1 /sdx2
+disque.resetPartitions()#Reset Partitions /sdx1 /sdx2
 
-		#Cree systeme de fichiers fat32 et ext4
-		print ("Cree Systeme fichiers fat")
-		self.creeSystemeFichiers('fat32')#Fat
-		print ("Cree Systeme fichiers ext4")
-		self.creeSystemeFichiers('ext4')#ext4		
-		
-	def mountDisk(self):
-		""" monter disques /dev/sdX1 /dev/sdX2"""
-		""" udisksctl mount -b /dev/sde1"""
-
-		commande="udisksctl mount -b "+str(self.disque)
-		
-		print (" montage des disques = ",commande)
-		
-		os.system(commande+"1")
-		os.system(commande+"2")		
-
+#Cree systeme de fichiers fat32 et ext4
+print ("Cree Systeme fichiers fat")
+disque.creeSystemeFichiers('fat32')#Fat
+print ("Cree Systeme fichiers ext4")
+disque.creeSystemeFichiers('ext4')#ext4
 

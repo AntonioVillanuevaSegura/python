@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8
 """
-#Antonio Villanueva Segura partitionner un disque et copier les informations
+Antonio Villanueva Segura partitionner un disque 
 http://huntingbears.com.ve/operaciones-de-lectura-y-escritura-de-particiones-con-python-parted.html
 """
 import parted,_ped
