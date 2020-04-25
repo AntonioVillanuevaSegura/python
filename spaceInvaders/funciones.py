@@ -2,6 +2,8 @@ import sys
 import pygame
 from disparo import Disparo
 from marciano import Marciano
+from time import sleep #retardo entre juegos 
+
 
 def tecla_pulsada(evento,configuracion,pantalla,nave,disparos):
 	""" respuesta a tecla pulsada """
@@ -14,6 +16,7 @@ def tecla_pulsada(evento,configuracion,pantalla,nave,disparos):
 	elif evento.key==pygame.K_SPACE: #Disparo
 		disparo=Disparo(configuracion,pantalla,nave)
 		disparos.add(disparo) #Anade disparos al grupo
+
 		
 	elif evento.key==pygame.K_q:#QUIT salir
 		sys.exit()
@@ -26,7 +29,7 @@ def tecla_liberada(evento,configuracion,pantalla,nave,disparos):
 	if evento.key==pygame.K_LEFT:
 		nave.izquierda=False				
 		
-def analiza_eventos(configuracion,pantalla,nave,disparos):
+def analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos):
 	""" Analizamos teclas pulsadas o raton """
 
 	#Mira eventos de teclado o raton		
@@ -34,6 +37,9 @@ def analiza_eventos(configuracion,pantalla,nave,disparos):
 		#Salida del juego
 		if evento.type==pygame.QUIT:
 			sys.exit()
+		elif evento.type==pygame.MOUSEBUTTONDOWN: #Boton PLAY pulsado ?
+			raton_x,raton_y=pygame.mouse.get_pos()
+			boton_play(marcador,boton,raton_x,raton_y)
 			
 		elif evento.type==pygame.KEYDOWN:#tecla pulsada
 			tecla_pulsada(evento,configuracion,pantalla,nave,disparos)
@@ -41,7 +47,7 @@ def analiza_eventos(configuracion,pantalla,nave,disparos):
 		elif evento.type==pygame.KEYUP:#tecla liberada
 			tecla_liberada(evento,configuracion,pantalla,nave,disparos)			
 			
-def actualiza_pantalla(configuracion,pantalla,nave,marcianos,disparos):
+def actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,boton):
 	""" Actualiza imagenes en la pantalla """
 	pantalla.fill(configuracion.color_pantalla)
 	
@@ -54,6 +60,11 @@ def actualiza_pantalla(configuracion,pantalla,nave,marcianos,disparos):
 	#Draw() en un grupo dibuja cada elemento definido en rect 
 	marcianos.draw (pantalla) #Emplea Group.Draw		
 		
+		
+	#Dibujar el boton si el juego esta inactivo  
+	if not marcador.juego_activo:
+
+		boton.dibuja()
 	#La version mas reciente la hace visible
 	pygame.display.flip()
 
@@ -74,47 +85,30 @@ def actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos):
 	if (len(marcianos) == 0): #Han sido todos aniquilados
 		#Limpia disparos restantes y crear nueva flota
 		crear_flota(configuracion,pantalla,nave,marcianos)
-
-def cuantos_marcianos_x(configuracion,marciano_ancho):
-	""" Determino el n° de marcianos por fila"""
-	#Espacio entre  marcianos ,segun datos de la pantalla
-	#El espaci x menos un marciano a cada lado
-	disponible_x=configuracion.ancho_pantalla - (2 * marciano_ancho)	
-	
-	#Cuantos marcianos puedo colocar en x  
-	n_marcianos_x=int (disponible_x / (2 * marciano_ancho))		
-	
-	return n_marcianos_x	
-
-def cuantos_marcianos_y(configuracion,altura_nave,altura_marciano):
-	""" Cuantas lineas de marcianos en Y podemos entrar """	
-	disponible_y=(configuracion.alto_pantalla - (3 * altura_marciano)- altura_nave)
-	num_lineas_marcianos= int ( disponible_y /(2* altura_marciano) )
-	
-	return  num_lineas_marcianos
 	
 def crear_marciano(configuracion,pantalla,marcianos,numero_marciano,fila):
 	"""Creo un marciano y lo coloco en la fila """
+	
+	offset_superior=configuracion.offset_superior #Deja un espacio superior de margen
+	
 	#Toma medidas del marciano
-	marciano=Marciano(configuracion,pantalla)
+	marciano=Marciano(configuracion,pantalla,fila)
 	marciano_ancho=marciano.rect.width	
 	
-	marciano.x=marciano_ancho + (2 * marciano_ancho) * numero_marciano
+	#Espaciado entre marcianos en X en la Fila
+	marciano.x=marciano_ancho + ( marciano_ancho * numero_marciano)
 	marciano.rect.x=marciano.x
 	
-	marciano.rect.y=marciano.rect.height +2 *marciano.rect.height* fila
+	#Espaciado entre marcianos en Y vertical 
+	marciano.rect.y=offset_superior +marciano.rect.height + 1.5 * marciano.rect.height * fila
 	
 	marcianos.add(marciano) #Lo anado al Grupo 	
 
 def crear_flota(configuracion,pantalla,nave,marcianos):	
 	""" Crea una flota de marcianos """
-	#Creo un marciano de referencia para medidas 
-	individuo=Marciano(configuracion,pantalla)	
 
-	num_marcianos_x=cuantos_marcianos_x(configuracion,
-												individuo.rect.width)
-	num_lineas=cuantos_marcianos_y(configuracion,nave.rect.height,
-												individuo.rect.height)
+	num_marcianos_x=configuracion.num_marcianos_fila #11 segun original									
+	num_lineas=configuracion.num_marcianos_vertical #5 segun original
 	
 	#Creo la primera fila de marcianos, segun n_marcianos_x 
 	for fila in range(num_lineas): #Numero de filas de marcianos
@@ -136,7 +130,51 @@ def cambia_direccion_flota(configuracion,marcianos):
 		
 	configuracion.direccion_flota *=-1 #Aqui invierte el sentido !!!
 	
-def actualiza_marcianos(configuracion,marcianos):
+def actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos):
 	""" actualiza posiciones de la flota marcianera """
 	borde_flota(configuracion,marcianos)	
 	marcianos.update() #Utiliza la actualizacion desde Group()
+	
+	#Detecta colision de un marciano con la nave
+	if pygame.sprite.spritecollideany(nave,marcianos):
+		#print ("Nave tocada ")
+		nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos)
+		
+	#Mira si los marcianos han llegado abajo 
+	marcianos_abajo(configuracion,marcador,pantalla,nave,marcianos,disparos)
+
+def nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos):	
+	""" La nave ha sido alcanzado por los marcianos """
+	
+	#Vacia los disparos pendientes y marcianos 
+	marcianos.empty()
+	disparos.empty()
+	
+	#Crea una nueva flota , nuevo juego
+	crear_flota(configuracion,pantalla,nave,marcianos)
+	
+	#recentra la nave
+	nave.centra()	
+	
+	if marcador.num_vidas>0:#Si quedan vidas puede seguir jugando
+		marcador.num_vidas =-1 #una vida menos 
+		
+		sleep(0.5)
+	else:
+		marcador.juego_activo=False
+
+def marcianos_abajo(configuracion,marcador,pantalla,nave,marcianos,disparos):
+	"""Han llegado abajo los marcianos  """
+	pantalla=pantalla.get_rect() #obtengo el rectangulo de pantalla
+	
+	#Recorro la marcianada , a ver si toca la parte inferior de la panta
+	for marciano in marcianos.sprites():
+		if marciano.rect.bottom >=pantalla.bottom:
+			""" si llegan abajo han ganado , nave alcanzada """
+			nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos) 
+			break
+		
+def boton_play(marcador,boton,raton_x,raton_y):
+	""" ha sido pulsado el boton PLAY """
+	if boton.rect.collidepoint(raton_x,raton_y):
+		marcador.juego_activo=True

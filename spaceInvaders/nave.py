@@ -44,3 +44,7 @@ class Nave():
 			 		 		
 		 #Ahora actualiza el rect del objeto		
 		 self.rect.centerx=self.centro
+		 
+	def centra (self):
+		""" centra en el centro de la pantalla ,la nave """
+		self.centro=(self.pantalla.get_rect()).centerx

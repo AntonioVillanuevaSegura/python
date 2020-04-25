@@ -9,6 +9,8 @@ import funciones as func #Importa funciones
 from pygame.sprite import Group # Para guardar disparos y alien
 from disparo import Disparo
 from marciano import Marciano
+from marcador import Marcador #Puntuaciones
+from boton import Boton #Boton play
 
 #http://www.pygame.org/docs/tut/SpriteIntro.html
 
@@ -30,7 +32,7 @@ def run():
 	nave= Nave(configuracion,pantalla)
 	
 	#Crea una instancia de un marciano
-	marciano=Marciano(configuracion,pantalla)
+	#marciano=Marciano(configuracion,pantalla)
 	
 	#Creo la flota de marcianos
 	marcianos=Group()
@@ -40,22 +42,30 @@ def run():
 	
 	#Guarda los disparos en un grupo de pygame.sprite
 	disparos=Group()
+	
+	#puntuaciones inicializa puntuaciones , n naves etc 
+	marcador=Marcador(configuracion)
+	
+	#Crea un boton de play
+	boton=Boton(configuracion,pantalla,"Juega")
+		
 		
 	#Bucle principal
 	while True:
 		
 		#Mira eventos de teclado o raton		
-		func.analiza_eventos(configuracion,pantalla,nave,disparos)
-				
-		#Dibuja la nave del jugador
-		nave.actualiza()
-		
-		#Actualiza TODOS los disparo en el GROUP pero es un disparo
-		func.actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos) #Este update() esta en la clase disparo
-		
-		func.actualiza_marcianos(configuracion,marcianos)
-		
-		func.actualiza_pantalla(configuracion,pantalla,nave,marcianos,disparos)
+		func.analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos)
+					
+		if marcador.juego_activo: #Juego activo ?Todas las vidas ?
+			#Dibuja la nave del jugador
+			nave.actualiza()
+			
+			#Actualiza TODOS los disparo en el GROUP pero es un disparo
+			func.actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos) #Este update() esta en la clase disparo
+			
+			func.actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos)
+			
+		func.actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,boton)
 		
 		#Muestra en pantalla
 		pygame.display.flip()

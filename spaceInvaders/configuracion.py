@@ -8,10 +8,13 @@ class Configuracion():
 		self.ancho_pantalla=1200
 		self.alto_pantalla=800
 		self.color_pantalla=(0,0,0) #0,0,0 es NEGRO
+		#self.offset_superior=100 #Donde empieza la flota de marcianos
+		self.offset_superior=100 #Donde empieza la flota de marcianos		
 		
 		#Configuracion de la nave
 		#Factor desplazamiento X de la nave
 		self.desplazamiento_nave=3
+		self.num_vidas=1 #NUMERO DE VIDAS DEL JUGADOE 		
 		
 		#Configuracion de los Disparos
 		self.disparo_velocidad=20
@@ -23,15 +26,11 @@ class Configuracion():
 		self.velocidad_marciano=1
 		self.velocidad_flota=10
 		self.direccion_flota=1 # -1 izquierda 1 derecha
-		self.cambia_imagen=10
+		self.cambia_imagen=20
 		
-		#Sonidos
-		#pygame.mixer.set_num_channels(10)  # default is 8
-		#pygame.mixer.Channel(0).play(pygame.mixer.Sound('sound\gun_fire.wav'))
-		#pygame.mixer.Channel(1).play(pygame.mixer.Sound('sound\enemy_hit.wav'))
-		#pygame.mixer.init()
-		#self.sonido_disparo = pygame.mixer.Sound('sonidos/shoot.wav')
-		#self.sonido_explota = pygame.mixer.Sound('sonidos/explosion.wav')		
-		#self.sonido_disparo=pygame.mixer.music.load('sonidos/shoot.wav')
-		#self.sonido_explota=pygame.mixer.music.load('sonidos/explosion.wav')		
-		#pygame.mixer.music.play(0)
+		
+		self.num_marcianos_fila=11
+		self.num_marcianos_vertical=5
+		
+		self.espacio_x=1 #Espaciado en la fila entre marcianos
+		self.espacio_y=1.5#Espaciado vertical en Y entre marcianos

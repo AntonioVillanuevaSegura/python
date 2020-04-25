@@ -3,21 +3,36 @@ from pygame.sprite import Sprite
 
 class Marciano(Sprite):
 	""" Modelizamos un simple marciano ,heredamos de Sprite """
-	def __init__(self,configuracion,pantalla):
+	def __init__(self,configuracion,pantalla,fila=0):
 		""" Inicializo la super clase Sprite """
 		super().__init__() #Al estilo python3 ...
+	
 		self.pantalla=pantalla
+		self.pantalla_rect=pantalla.get_rect()
 		self.configuracion=configuracion
 		
 		#Cargo imagenes que utiliza el marciano
-		self.imageA=pygame.image.load('imagenes/Alien0.xpm')	
-		self.imageB=pygame.image.load('imagenes/Alien0b.xpm')	
+		#Segun la fila da el tipo de Alien
+		if fila==0:
+			ALIEN0="imagenes/Alien3.xpm"
+			ALIEN1="imagenes/Alien3b.xpm"
+		elif fila==1 or fila==2:
+			ALIEN0="imagenes/Alien1.xpm"
+			ALIEN1="imagenes/Alien1b.xpm"	
+		else:
+			ALIEN0="imagenes/Alien0.xpm"
+			ALIEN1="imagenes/Alien0b.xpm"					
+		
+		#Carga imagenes a utilizar 
+		self.imageA=pygame.image.load(ALIEN0)			
+		self.imageB=pygame.image.load(ALIEN1)			
 		self.explosion=pygame.image.load('imagenes/AlienExplode.xpm')
+		
 		self.cambia_imagen=configuracion.cambia_imagen #cada cuanto cambia
 		self.frame_imagen=1
 		
 		#imagen de referencia	
-		self.image=pygame.image.load('imagenes/Alien0.xpm')
+		self.image=pygame.image.load(ALIEN0)
 		
 		#Defino el rectangulo que define  esta imagen
 		self.rect=self.image.get_rect()
@@ -44,14 +59,13 @@ class Marciano(Sprite):
 	
 	def borde(self):
 		""" Si un marciano toca un borde de la pantalla cambia """
-		pantalla_rect=self.pantalla.get_rect() #Recupera rect. pantalla
+		#pantalla_rect=self.pantalla.get_rect() #Recupera rect. pantalla
 		
 		#El rectangulo.derecho del marciano ha superado el bord. derecho
-		if self.rect.right >= pantalla_rect.right:
+		if self.rect.right >= self.pantalla_rect.right:
 			return True
 			
-		elif self.rect.left <= 0:#El marciano ha llegado a x==0 ?
-			
+		elif self.rect.left <= 0:#El marciano ha llegado a x==0 ?			
 			return True
 		
 		return False
@@ -60,7 +74,7 @@ class Marciano(Sprite):
 		""" gestiona el cambio de imagen """
 		#Actualiza imagen
 		if self.cambia_imagen ==0 : #Ha llegado a 0
-			self.cambia_imagen=10 
+			self.cambia_imagen=40
 			if self.frame_imagen==1:
 				self.image=self.imageA
 				self.frame_imagen=2
