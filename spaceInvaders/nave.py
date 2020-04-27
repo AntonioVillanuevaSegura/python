@@ -10,6 +10,8 @@ class Nave():
 		
 		#Carga la imagen de la nave
 		self.imagen=pygame.image.load('imagenes/PlayerSprite.xpm')
+		self.imagenExp1=pygame.image.load('imagenes/PlayerSprite0.xpm')
+		self.imagenExp2=pygame.image.load('imagenes/PlayerSprite1.xpm')			
 		
 		self.rect=self.imagen.get_rect() #rect de la nave
 		self.rect_pantalla=pantalla.get_rect() #rect pantalla

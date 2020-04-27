@@ -1,5 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
+import random
 
 class Marciano(Sprite):
 	""" Modelizamos un simple marciano ,heredamos de Sprite """
@@ -55,8 +56,7 @@ class Marciano(Sprite):
 		self.rect.x = self.x
 		
 		self.imagen() #Cambia imagen segun paso
-		
-	
+			
 	def borde(self):
 		""" Si un marciano toca un borde de la pantalla cambia """
 		#pantalla_rect=self.pantalla.get_rect() #Recupera rect. pantalla
@@ -84,3 +84,8 @@ class Marciano(Sprite):
 			
 		self.cambia_imagen -=1		
 			
+	def disparo(self):
+		""" crea un disparo aleatorio """
+		if random.randint(0,5)<=1:
+			return True
+		return False 

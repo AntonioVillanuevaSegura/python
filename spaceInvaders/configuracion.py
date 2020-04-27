@@ -27,6 +27,7 @@ class Configuracion():
 		self.velocidad_flota=10
 		self.direccion_flota=1 # -1 izquierda 1 derecha
 		self.cambia_imagen=20
+		self.marciano_offset_x=75 #Centrado de la flota en la pantalla
 		
 		
 		self.num_marcianos_fila=11
@@ -34,3 +35,7 @@ class Configuracion():
 		
 		self.espacio_x=1 #Espaciado en la fila entre marcianos
 		self.espacio_y=1.5#Espaciado vertical en Y entre marcianos
+		
+		
+		#Bunkers
+		self.bunker_y=600

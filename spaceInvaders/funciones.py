@@ -2,6 +2,7 @@ import sys
 import pygame
 from disparo import Disparo
 from marciano import Marciano
+from bunker import Bunker
 from time import sleep #retardo entre juegos 
 
 
@@ -47,7 +48,7 @@ def analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos):
 		elif evento.type==pygame.KEYUP:#tecla liberada
 			tecla_liberada(evento,configuracion,pantalla,nave,disparos)			
 			
-def actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,boton):
+def actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,boton,bunkers):
 	""" Actualiza imagenes en la pantalla """
 	pantalla.fill(configuracion.color_pantalla)
 	
@@ -63,8 +64,11 @@ def actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,b
 		
 	#Dibujar el boton si el juego esta inactivo  
 	if not marcador.juego_activo:
-
 		boton.dibuja()
+		
+	#Dibujar bunker	
+	bunkers.draw(pantalla)
+				
 	#La version mas reciente la hace visible
 	pygame.display.flip()
 
@@ -85,9 +89,27 @@ def actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos):
 	if (len(marcianos) == 0): #Han sido todos aniquilados
 		#Limpia disparos restantes y crear nueva flota
 		crear_flota(configuracion,pantalla,nave,marcianos)
+		
+def actualiza_disparosMarcianos(configuracion,pantalla,nave,marcianos,disparos):
+	""" Actualiza ,limpia los disparos marcianos"""
+	pantalla_rect=pantalla.get_rect()#Rectangulo que representa la pantalla	
+	
+	#actualiza las posiciones de los disparos 
+	disparos.update()
+	
+	#Recorre los disparos 
+	for disparo in disparos.copy():
+		if disparo.rect.bottom >=pantalla_rect.bottom: #La parte inf. llega al final
+			disparos.remove(disparo) #elimina este disparo sale pantalla
+			
+	#Detecta la colision disparo con  nave
+	#colision=pygame.sprite.groupcollide (disparos,marcianos,True,True)
+	colision=pygame.sprite.groupcollide (disparos,nave,True,True)	
+			
 	
 def crear_marciano(configuracion,pantalla,marcianos,numero_marciano,fila):
 	"""Creo un marciano y lo coloco en la fila """
+	offset_x=configuracion.marciano_offset_x
 	
 	offset_superior=configuracion.offset_superior #Deja un espacio superior de margen
 	
@@ -96,7 +118,7 @@ def crear_marciano(configuracion,pantalla,marcianos,numero_marciano,fila):
 	marciano_ancho=marciano.rect.width	
 	
 	#Espaciado entre marcianos en X en la Fila
-	marciano.x=marciano_ancho + ( marciano_ancho * numero_marciano)
+	marciano.x=offset_x+ marciano_ancho + ( marciano_ancho * numero_marciano)
 	marciano.rect.x=marciano.x
 	
 	#Espaciado entre marcianos en Y vertical 
@@ -178,3 +200,9 @@ def boton_play(marcador,boton,raton_x,raton_y):
 	""" ha sido pulsado el boton PLAY """
 	if boton.rect.collidepoint(raton_x,raton_y):
 		marcador.juego_activo=True
+		
+def crear_bunkers(configuracion,pantalla,bunkers):
+	""" Crea los 3 bunkers del juego"""
+	for posicion in range(3):
+		bunker=Bunker ( configuracion,pantalla,posicion)
+		bunkers.add(bunker) 	
