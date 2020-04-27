@@ -71,14 +71,15 @@ def run():
 			nave.actualiza()
 			
 			#Actualiza TODOS los disparo en el GROUP pero es un disparo
-			func.actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos) #Este update() esta en la clase disparo
+			func.actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos) #Este update() esta en la clase disparo			
 			
-			func.actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos)			
+			#Actualiza si un marciano ha disparado , falta mostrarlo
+			func.actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos,disparosM)			
 			
 			#Actualiza disparos Marcianos
-			#func.actualiza_disparosMarcianos(configuracion,pantalla,nave,marcianos,disparosM) #Este update() esta en la clase disparo						
+			func.actualiza_disparosMarcianos(configuracion,marcador,pantalla,nave,marcianos,disparosM) #Este update() esta en la clase disparo						
 			
-		func.actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,boton,bunkers)
+		func.actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,disparosM,boton,bunkers)
 		
 		#Muestra en pantalla
 		pygame.display.flip()

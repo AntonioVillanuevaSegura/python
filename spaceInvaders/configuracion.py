@@ -17,7 +17,7 @@ class Configuracion():
 		self.num_vidas=1 #NUMERO DE VIDAS DEL JUGADOE 		
 		
 		#Configuracion de los Disparos
-		self.disparo_velocidad=20
+		self.disparo_velocidad=20	
 		self.disparo_ancho=3
 		self.disparo_alto=15
 		self.disparo_color=(255,255,255) #255,255,255 BLANCO

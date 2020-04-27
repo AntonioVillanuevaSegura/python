@@ -48,13 +48,17 @@ def analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos):
 		elif evento.type==pygame.KEYUP:#tecla liberada
 			tecla_liberada(evento,configuracion,pantalla,nave,disparos)			
 			
-def actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,boton,bunkers):
+def actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,disparosM,boton,bunkers):
 	""" Actualiza imagenes en la pantalla """
 	pantalla.fill(configuracion.color_pantalla)
 	
-	#Dibuja los disparos del Grupo sprite pygame
+	#Dibuja los disparos del Grupo sprite pygame de la nave
 	for disparo in disparos.sprites():
 		disparo.dibuja()
+		
+	#Dibujar los disaparos del Grupo sprite pygame de los marcianos	
+	for disparo in disparosM.sprites():
+		disparo.dibuja()	
 		
 	nave.dibuja()
 	
@@ -68,6 +72,7 @@ def actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,b
 		
 	#Dibujar bunker	
 	bunkers.draw(pantalla)
+		
 				
 	#La version mas reciente la hace visible
 	pygame.display.flip()
@@ -90,7 +95,7 @@ def actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos):
 		#Limpia disparos restantes y crear nueva flota
 		crear_flota(configuracion,pantalla,nave,marcianos)
 		
-def actualiza_disparosMarcianos(configuracion,pantalla,nave,marcianos,disparos):
+def actualiza_disparosMarcianos(configuracion,marcador,pantalla,nave,marcianos,disparos):
 	""" Actualiza ,limpia los disparos marcianos"""
 	pantalla_rect=pantalla.get_rect()#Rectangulo que representa la pantalla	
 	
@@ -102,10 +107,13 @@ def actualiza_disparosMarcianos(configuracion,pantalla,nave,marcianos,disparos):
 		if disparo.rect.bottom >=pantalla_rect.bottom: #La parte inf. llega al final
 			disparos.remove(disparo) #elimina este disparo sale pantalla
 			
-	#Detecta la colision disparo con  nave
-	#colision=pygame.sprite.groupcollide (disparos,marcianos,True,True)
-	colision=pygame.sprite.groupcollide (disparos,nave,True,True)	
-			
+	#Detecta colision del sprite nave con algun disparo , True se elimina disparo
+	colision=pygame.sprite.spritecollide (nave,disparos,True)
+	
+	#Han alcanzado la nave ?
+
+	if colision:
+		nave_alcanzada (configuracion,marcador,pantalla,nave,marcianos,disparos)
 	
 def crear_marciano(configuracion,pantalla,marcianos,numero_marciano,fila):
 	"""Creo un marciano y lo coloco en la fila """
@@ -152,7 +160,7 @@ def cambia_direccion_flota(configuracion,marcianos):
 		
 	configuracion.direccion_flota *=-1 #Aqui invierte el sentido !!!
 	
-def actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos):
+def actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos,disparosM):
 	""" actualiza posiciones de la flota marcianera """
 	borde_flota(configuracion,marcianos)	
 	marcianos.update() #Utiliza la actualizacion desde Group()
@@ -164,10 +172,18 @@ def actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos)
 		
 	#Mira si los marcianos han llegado abajo 
 	marcianos_abajo(configuracion,marcador,pantalla,nave,marcianos,disparos)
+	
+	#Marciano dispara ?
+	for marciano in marcianos.copy():
+		if marciano.disparo():
+			#print ("Dispara marciano ",marciano.rect.x)
+			disparosM.add(Disparo(configuracion,pantalla,marciano,False)) #Anade disparos al grupo
 
 def nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos):	
 	""" La nave ha sido alcanzado por los marcianos """
 	
+	nave.explosion() #Explota la nave
+	print ("nave_alcanzada")
 	#Vacia los disparos pendientes y marcianos 
 	marcianos.empty()
 	disparos.empty()

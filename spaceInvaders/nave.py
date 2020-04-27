@@ -1,7 +1,11 @@
 import pygame
-class Nave():
+from pygame.sprite import Sprite
+from time import sleep #retardo entre juegos 
+
+class Nave(Sprite):
 	""" Nave jugador space invaders"""
 	def __init__(self,configuracion,pantalla):
+		super().__init__() #Al estilo python3 ...		
 		
 		self.pantalla=pantalla
 		
@@ -11,7 +15,8 @@ class Nave():
 		#Carga la imagen de la nave
 		self.imagen=pygame.image.load('imagenes/PlayerSprite.xpm')
 		self.imagenExp1=pygame.image.load('imagenes/PlayerSprite0.xpm')
-		self.imagenExp2=pygame.image.load('imagenes/PlayerSprite1.xpm')			
+		self.imagenExp2=pygame.image.load('imagenes/PlayerSprite1.xpm')	
+				
 		
 		self.rect=self.imagen.get_rect() #rect de la nave
 		self.rect_pantalla=pantalla.get_rect() #rect pantalla
@@ -50,3 +55,24 @@ class Nave():
 	def centra (self):
 		""" centra en el centro de la pantalla ,la nave """
 		self.centro=(self.pantalla.get_rect()).centerx
+		
+	def explosion(self):
+		""" la nave ha explotado """
+		
+		self.pantalla.fill(self.configuracion.color_pantalla)		
+
+		self.image=self.imagenExp1 #Explosion 1
+		#La version mas reciente la hace visible
+		self.dibuja()
+		pygame.display.flip()		
+
+		sleep(0.5)
+		
+		self.image=self.imagenExp2 #Explosion 2		
+		#La version mas reciente la hace visible
+		self.dibuja()		
+		pygame.display.flip()		
+		
+		sleep(0.5)
+						
+		

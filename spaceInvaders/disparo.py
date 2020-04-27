@@ -3,11 +3,11 @@ from pygame.sprite import Sprite
 
 class Disparo(Sprite):#Heredamos de Sprite para simplificar los disparos
 	""" implementa un disparo """
-	def __init__(self,configuracion,pantalla,nave):
+	def __init__(self,configuracion,pantalla,nave,tipo=True):
 		""" inicializamos la super clase padre Sprite """
-		#super(Disparo,self).__init__()
+
 		super().__init__() #Python3		
-				
+		self.tipo=tipo #Tipo de disparo True Nave False Marciano		
 		self.pantalla = pantalla
 		
 		#Crea un disparo inicialmente en (0,0) , en un rect x,y
@@ -29,7 +29,10 @@ class Disparo(Sprite):#Heredamos de Sprite para simplificar los disparos
 		
 	def update(self):
 		""" mueve ,actualiza el movimiento del disparo """
-		self.y -=self.velocidad
+		if self.tipo:#Disparo de Nave
+			self.y -=self.velocidad
+		else: #Disparo Marciano
+			self.y +=self.velocidad/3
 		
 		#actualiza la posicion en el rect  Y del disparo 
 		self.rect.y=self.y
