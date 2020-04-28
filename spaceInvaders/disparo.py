@@ -32,7 +32,7 @@ class Disparo(Sprite):#Heredamos de Sprite para simplificar los disparos
 		if self.tipo:#Disparo de Nave
 			self.y -=self.velocidad
 		else: #Disparo Marciano
-			self.y +=self.velocidad/3
+			self.y +=self.velocidad/5
 		
 		#actualiza la posicion en el rect  Y del disparo 
 		self.rect.y=self.y

@@ -172,9 +172,9 @@ def actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos,
 	#Mira si los marcianos han llegado abajo 
 	marcianos_abajo(configuracion,marcador,pantalla,nave,marcianos,disparos)
 	
-	#Marciano dispara ?
+	#Marciano efectua disparo ? ,
 	for marciano in marcianos.copy():
-		if marciano.disparo():
+		if marciano.disparo() and len (disparosM ) <configuracion.numero_disparos_simultaneos:
 			#print ("Dispara marciano ",marciano.rect.x)
 			disparosM.add(Disparo(configuracion,pantalla,marciano,False)) #Anade disparos al grupo
 

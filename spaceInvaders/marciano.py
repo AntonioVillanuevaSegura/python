@@ -86,6 +86,6 @@ class Marciano(Sprite):
 			
 	def disparo(self):
 		""" crea un disparo aleatorio """
-		if random.randint(0,1000)<=1:
+		if random.randint(0,100)<=1:
 			return True
 		return False 
