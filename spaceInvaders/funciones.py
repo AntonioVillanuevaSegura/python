@@ -111,7 +111,6 @@ def actualiza_disparosMarcianos(configuracion,marcador,pantalla,nave,marcianos,d
 	colision=pygame.sprite.spritecollide (nave,disparos,True)
 	
 	#Han alcanzado la nave ?
-
 	if colision:
 		nave_alcanzada (configuracion,marcador,pantalla,nave,marcianos,disparos)
 	
@@ -181,9 +180,7 @@ def actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos,
 
 def nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos):	
 	""" La nave ha sido alcanzado por los marcianos """
-	
-	nave.explosion() #Explota la nave
-	print ("nave_alcanzada")
+
 	#Vacia los disparos pendientes y marcianos 
 	marcianos.empty()
 	disparos.empty()

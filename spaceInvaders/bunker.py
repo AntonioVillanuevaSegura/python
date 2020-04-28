@@ -34,13 +34,10 @@ class Bunker(Sprite):
 		elif  posicion==2:#DERECHA 2
 			self.rect.x= self.rect_pantalla.right-2*self.rect.width						
 		
-		
-
 	def dibuja(self):
 		""" Dibuja el bunker en su posicion """
 		self.pantalla.blit(self.image,self.rect)
-		
-		
+				
 	def update(self):
 		""" actualiza el estado/pos del bunker """
 		print ("update bunker")

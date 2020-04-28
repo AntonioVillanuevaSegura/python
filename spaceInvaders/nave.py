@@ -56,23 +56,5 @@ class Nave(Sprite):
 		""" centra en el centro de la pantalla ,la nave """
 		self.centro=(self.pantalla.get_rect()).centerx
 		
-	def explosion(self):
-		""" la nave ha explotado """
-		
-		self.pantalla.fill(self.configuracion.color_pantalla)		
-
-		self.image=self.imagenExp1 #Explosion 1
-		#La version mas reciente la hace visible
-		self.dibuja()
-		pygame.display.flip()		
-
-		sleep(0.5)
-		
-		self.image=self.imagenExp2 #Explosion 2		
-		#La version mas reciente la hace visible
-		self.dibuja()		
-		pygame.display.flip()		
-		
-		sleep(0.5)
 						
 		
