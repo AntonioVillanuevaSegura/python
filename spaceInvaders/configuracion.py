@@ -29,14 +29,17 @@ class Configuracion():
 		self.cambia_imagen=20
 		self.marciano_offset_x=75 #Centrado de la flota en la pantalla
 		self.numero_disparos_simultaneos=2 #Cuantos disparos a la vez
-		
-		
+				
 		self.num_marcianos_fila=11
 		self.num_marcianos_vertical=5
 		
 		self.espacio_x=1 #Espaciado en la fila entre marcianos
 		self.espacio_y=1.5#Espaciado vertical en Y entre marcianos
-		
-		
+				
 		#Bunkers
 		self.bunker_y=600
+		
+	def incrementa_velocidad(self,velocidad=1):
+		""" incrementa velocidad del juego"""
+		self.velocidad_marciano =velocidad -0.6
+		#self.velocidad_flota	+=2	
