@@ -13,6 +13,7 @@ from marciano import Marciano
 from marcador import Marcador #Puntuaciones
 from boton import Boton #Boton play
 from bunker import Bunker
+from informaciones import Informaciones #Muestra puntuaciones 
 
 #http://www.pygame.org/docs/tut/SpriteIntro.html
 
@@ -51,6 +52,9 @@ def run():
 	#puntuaciones inicializa puntuaciones , n naves etc 
 	marcador=Marcador(configuracion)
 	
+	#Informacion de las puntuaciones , marcadores
+	informacion=Informaciones(configuracion,pantalla,marcador)
+	
 	#Crea un boton de play
 	boton=Boton(configuracion,pantalla,"Juega")
 	
@@ -71,15 +75,19 @@ def run():
 			nave.actualiza()
 			
 			#Actualiza TODOS los disparo en el GROUP pero es un disparo
-			func.actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos) #Este update() esta en la clase disparo			
+			func.actualiza_disparos(configuracion,pantalla,
+				nave,marcianos,disparos) #Este update() esta en la clase disparo			
 			
 			#Actualiza si un marciano ha disparado , falta mostrarlo
-			func.actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos,disparosM)			
+			func.actualiza_marcianos(configuracion,marcador,
+							pantalla,nave,marcianos,disparos,disparosM)			
 			
 			#Actualiza disparos Marcianos
-			func.actualiza_disparosMarcianos(configuracion,marcador,pantalla,nave,marcianos,disparosM) #Este update() esta en la clase disparo						
+			func.actualiza_disparosMarcianos(configuracion,marcador,
+					pantalla,nave,marcianos,disparosM) #Este update() esta en la clase disparo						
 			
-		func.actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,disparosM,boton,bunkers)
+		func.actualiza_pantalla(configuracion,pantalla,informacion,marcador,
+						nave,marcianos,disparos,disparosM,boton,bunkers)
 		
 		#Muestra en pantalla
 		pygame.display.flip()

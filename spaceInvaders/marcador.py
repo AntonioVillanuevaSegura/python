@@ -5,6 +5,9 @@ class Marcador():
 		self.configuracion=configuracion
 		self.reset()
 		self.juego_activo=False #Inactivo por defecto
+		self.puntos_marcianos=0
+		self.puntos_jugador1=0
+		self.puntos_jugador2=0
 		
 	def reset(self):
 		""" inicializa puntuaciones """

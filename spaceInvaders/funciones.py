@@ -48,7 +48,8 @@ def analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos):
 		elif evento.type==pygame.KEYUP:#tecla liberada
 			tecla_liberada(evento,configuracion,pantalla,nave,disparos)			
 			
-def actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,disparosM,boton,bunkers):
+def actualiza_pantalla(configuracion,pantalla,informacion,
+			marcador,nave,marcianos,disparos,disparosM,boton,bunkers):
 	""" Actualiza imagenes en la pantalla """
 	pantalla.fill(configuracion.color_pantalla)
 	
@@ -69,6 +70,9 @@ def actualiza_pantalla(configuracion,pantalla,marcador,nave,marcianos,disparos,d
 	#Dibujar el boton si el juego esta inactivo  
 	if not marcador.juego_activo:
 		boton.dibuja()
+	
+	#Muestra la informacion de las puntuaciones , marcadores en pantalla
+	informacion.dibuja()
 		
 	#Dibujar bunker	
 	bunkers.draw(pantalla)
@@ -181,8 +185,6 @@ def actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos,
 	#Adapta la velocidad de forma proporcional al n° de marcianos
 	velocidad=configuracion.num_marcianos_fila * configuracion.num_marcianos_vertical/len(marcianos)
 	configuracion.incrementa_velocidad(velocidad)
-
-
 
 def nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos):	
 	""" La nave ha sido alcanzado por los marcianos """
