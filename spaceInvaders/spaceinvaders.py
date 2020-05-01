@@ -14,11 +14,13 @@ from marcador import Marcador #Puntuaciones
 from boton import Boton #Boton play
 from bunker import Bunker
 from informaciones import Informaciones #Muestra puntuaciones 
+import platform #Version python 
 
 #http://www.pygame.org/docs/tut/SpriteIntro.html
 
 def run():
 	""" Inicio del juego y crea el screen del juego """
+	print (platform.python_version())	#Ver version python
 	
 	pygame.init()
 	
