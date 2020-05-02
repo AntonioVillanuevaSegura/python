@@ -14,6 +14,7 @@ from marcador import Marcador #Puntuaciones
 from boton import Boton #Boton play
 from bunker import Bunker
 from informaciones import Informaciones #Muestra puntuaciones 
+from sonidos import Sonidos #Sonidos Juego
 import platform #Version python 
 
 #http://www.pygame.org/docs/tut/SpriteIntro.html
@@ -23,8 +24,7 @@ def run():
 	print (platform.python_version())	#Ver version python
 	
 	pygame.init()
-	
-	
+		
 	configuracion=Configuracion() #Configuracion inicial del juego
 	
 	#Lee la configuracion de pantalla 
@@ -64,13 +64,16 @@ def run():
 	#bunker=Bunker(configuracion,pantalla,2)
 	bunkers=Group()
 	func.crear_bunkers(configuracion,pantalla,bunkers)
+	
+	#Sonidos juego
+	sonidos=Sonidos() 
 		
 		
 	#Bucle principal
 	while True:
 		
 		#Mira eventos de teclado o raton		
-		func.analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos)
+		func.analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos,sonidos)
 					
 		if marcador.juego_activo: #Juego activo ?Todas las vidas ?
 			#Dibuja la nave del jugador
@@ -78,7 +81,7 @@ def run():
 			
 			#Actualiza TODOS los disparo en el GROUP pero es un disparo
 			func.actualiza_disparos(configuracion,pantalla,
-				nave,marcianos,disparos) #Este update() esta en la clase disparo			
+				nave,marcianos,disparos,sonidos) #Este update() esta en la clase disparo			
 			
 			#Actualiza si un marciano ha disparado , falta mostrarlo
 			func.actualiza_marcianos(configuracion,marcador,
@@ -86,7 +89,7 @@ def run():
 			
 			#Actualiza disparos Marcianos
 			func.actualiza_disparosMarcianos(configuracion,marcador,
-					pantalla,nave,marcianos,disparosM) #Este update() esta en la clase disparo						
+					pantalla,nave,marcianos,disparosM,sonidos) #Este update() esta en la clase disparo						
 			
 		func.actualiza_pantalla(configuracion,pantalla,informacion,marcador,
 						nave,marcianos,disparos,disparosM,boton,bunkers)

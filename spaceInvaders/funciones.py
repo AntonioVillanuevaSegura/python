@@ -6,8 +6,9 @@ from bunker import Bunker
 from time import sleep #retardo entre juegos 
 
 
-def tecla_pulsada(evento,configuracion,pantalla,nave,disparos):
+def tecla_pulsada(evento,configuracion,pantalla,nave,disparos,sonidos):
 	""" respuesta a tecla pulsada """
+
 	if evento.key==pygame.K_RIGHT:
 		nave.derecha=True
 		
@@ -17,7 +18,8 @@ def tecla_pulsada(evento,configuracion,pantalla,nave,disparos):
 	elif evento.key==pygame.K_SPACE: #Disparo
 		disparo=Disparo(configuracion,pantalla,nave)
 		disparos.add(disparo) #Anade disparos al grupo
-
+		pygame.mixer.stop()
+		sonidos.sonido_disparo.play()
 		
 	elif evento.key==pygame.K_q:#QUIT salir
 		sys.exit()
@@ -30,7 +32,7 @@ def tecla_liberada(evento,configuracion,pantalla,nave,disparos):
 	if evento.key==pygame.K_LEFT:
 		nave.izquierda=False				
 		
-def analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos):
+def analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos,sonidos):
 	""" Analizamos teclas pulsadas o raton """
 
 	#Mira eventos de teclado o raton		
@@ -43,7 +45,7 @@ def analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos):
 			boton_play(marcador,boton,raton_x,raton_y)
 			
 		elif evento.type==pygame.KEYDOWN:#tecla pulsada
-			tecla_pulsada(evento,configuracion,pantalla,nave,disparos)
+			tecla_pulsada(evento,configuracion,pantalla,nave,disparos,sonidos)
 			
 		elif evento.type==pygame.KEYUP:#tecla liberada
 			tecla_liberada(evento,configuracion,pantalla,nave,disparos)			
@@ -81,7 +83,7 @@ def actualiza_pantalla(configuracion,pantalla,informacion,
 	#La version mas reciente la hace visible
 	pygame.display.flip()
 
-def actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos):
+def actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos,sonidos):
 	""" Actualiza ,limpia los disparos"""
 	
 	#actualiza las posiciones de los disparos 
@@ -95,11 +97,15 @@ def actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos):
 	#Detecta la colision disparo con  marcianos
 	colision=pygame.sprite.groupcollide (disparos,marcianos,True,True)
 	
+	if colision:
+		sonidos.marciano_explota.play()
+		
+	
 	if (len(marcianos) == 0): #Han sido todos aniquilados
 		#Limpia disparos restantes y crear nueva flota
 		crear_flota(configuracion,pantalla,nave,marcianos)
 		
-def actualiza_disparosMarcianos(configuracion,marcador,pantalla,nave,marcianos,disparos):
+def actualiza_disparosMarcianos(configuracion,marcador,pantalla,nave,marcianos,disparos,sonidos):
 	""" Actualiza ,limpia los disparos marcianos"""
 	pantalla_rect=pantalla.get_rect()#Rectangulo que representa la pantalla	
 	
@@ -116,7 +122,7 @@ def actualiza_disparosMarcianos(configuracion,marcador,pantalla,nave,marcianos,d
 	
 	#Han alcanzado la nave ?
 	if colision:
-		nave_alcanzada (configuracion,marcador,pantalla,nave,marcianos,disparos)
+		nave_alcanzada (configuracion,marcador,pantalla,nave,marcianos,disparos,sonidos)
 	
 def crear_marciano(configuracion,pantalla,marcianos,numero_marciano,fila):
 	"""Creo un marciano y lo coloco en la fila """
@@ -186,8 +192,10 @@ def actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos,
 	velocidad=configuracion.num_marcianos_fila * configuracion.num_marcianos_vertical/len(marcianos)
 	configuracion.incrementa_velocidad(velocidad)
 
-def nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos):	
+def nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos,sonidos):	
 	""" La nave ha sido alcanzado por los marcianos """
+
+	sonidos.sonido_explota.play()
 
 	#Vacia los disparos pendientes y marcianos 
 	marcianos.empty()
