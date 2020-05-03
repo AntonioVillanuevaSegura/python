@@ -232,6 +232,7 @@ def boton_play(marcador,boton,raton_x,raton_y):
 		
 def crear_bunkers(configuracion,pantalla,bunkers):
 	""" Crea los 3 bunkers del juego"""
-	for posicion in range(3):
+	ancho =configuracion.ancho_pantalla
+	for posicion in range(ancho//5,ancho,ancho//5):
 		bunker=Bunker ( configuracion,pantalla,posicion)
 		bunkers.add(bunker) 	

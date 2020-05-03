@@ -13,8 +13,11 @@ class Bunker(Sprite):
 		self.rect_pantalla=pantalla.get_rect() #rect de pantalla		
 		
 		#Carga la imagen del bunker
-		self.image=pygame.image.load('imagenes/ShieldImage.xpm')				
+		self.image=pygame.image.load('imagenes/ShieldImage.xpm').convert_alpha()				
 		self.rect=self.image.get_rect() #rect del bunker
+		
+		#Disparo en el bunker
+		self.disparo=pygame.image.load('imagenes/bomba.xpm').convert_alpha()		
 		
 		#Posicion del bunquer
 		self.rect.centerx=self.rect_pantalla.bottom
@@ -25,6 +28,7 @@ class Bunker(Sprite):
 		#Inicializo coordenada Y  segun configuracion
 		self.rect.y= self.configuracion.bunker_y	
 			
+		"""	
 		#Inicializo x sengun 0==izq 1==centro 2==derercha		
 		if posicion==0:#IZQUIERDA
 			self.rect.x= self.rect_pantalla.left+self.rect.width
@@ -33,6 +37,8 @@ class Bunker(Sprite):
 			self.rect.x= self.rect_pantalla.centerx	-(self.rect.width/2)
 		elif  posicion==2:#DERECHA 2
 			self.rect.x= self.rect_pantalla.right-2*self.rect.width						
+		"""
+		self.rect.centerx=posicion
 		
 	def dibuja(self):
 		""" Dibuja el bunker en su posicion """
