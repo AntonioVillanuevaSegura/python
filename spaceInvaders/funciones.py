@@ -123,8 +123,22 @@ def actualiza_disparosMarcianos(configuracion,marcador,pantalla,bunkers,nave,mar
 	
 	#Debug disparos en el bunker 
 	if (colision):
-		print (colision)	
+		#print ("bunker = ",colision.keys()," ,disparo = ",colision.values())	
+		#print (type (colision.keys()).sprites())
+		#print (type (colision.keys()))
+		"""
+		for c in colision.keys(): #Ahora obtengo el bunker
+			print (c.rect.x)
+		"""
+		
+		print ("Total = ",colision) 
+		
+		for key in colision:
+			print ("key = ",key)
 			
+		for value in colision:
+			print ("valor = ",value)			
+		
 			
 	#Detecta colision del sprite nave con algun disparo , True se elimina disparo
 	colision=pygame.sprite.spritecollide (nave,disparos,True)
