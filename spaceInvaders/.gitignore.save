@@ -1,0 +1,9 @@
+__pycache__/
+__pycache__/spaceinvaders.cpython-35.pyc
+*.pyc
+	modifié :         __pycache__/configuracion.cpython-35.pyc
+	modifié :         __pycache__/disparo.cpython-35.pyc
+	modifié :         __pycache__/funciones.cpython-35.pyc
+	modifié :         __pycache__/marciano.cpython-35.pyc
+	modifié :         __pycache__/nave.cpython-35.pyc
+	modifié :         __pycache__/spaceinvaders.cpython-35.py
