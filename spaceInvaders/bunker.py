@@ -1,53 +1,50 @@
 import pygame
 from pygame.sprite import Sprite
+
 class Bunker(Sprite):
 	""" Bunker izquierda centro derecha"""
 	def __init__(self,configuracion,pantalla,posicion):	
-		super().__init__() #Al estilo python3 ...		
+		""" inicializamos la super clase padre Sprite """
+
+		super().__init__() #Python3	
+		#pygame.sprite.Sprite.__init__(self)		
 		
-		#Configuracion dura
+		#Configuracion 
 		self.configuracion=configuracion
+
+		#Carga la imagen del bunker
+		self.image=pygame.image.load('imagenes/ShieldImage.xpm').convert_alpha()
+						
+		#Defino el rectangulo que define  esta imagen
+		self.rect= (self.image).get_rect()		
 		
 		#Pantalla
 		self.pantalla=pantalla		
 		self.rect_pantalla=pantalla.get_rect() #rect de pantalla		
-		
-		#Carga la imagen del bunker
-		self.image=pygame.image.load('imagenes/ShieldImage.xpm').convert_alpha()				
-		self.rect=self.image.get_rect() #rect del bunker
-		
+				
 		#Disparo en el bunker
 		self.disparo=pygame.image.load('imagenes/bomba.xpm').convert_alpha()		
 		
-		#Posicion del bunquer
-		self.rect.centerx=self.rect_pantalla.bottom
+		#Posicion centerx del bunquer
+		#self.rect.centerx=self.rect_pantalla.bottom
 		
 		#Valor decimal representando posicion central bunker
-		self.centro=float(self.rect.centerx)
+		#self.centro=float(self.rect.centerx)
 		
 		#Inicializo coordenada Y  segun configuracion
 		self.rect.y= self.configuracion.bunker_y	
-			
-		"""	
-		#Inicializo x sengun 0==izq 1==centro 2==derercha		
-		if posicion==0:#IZQUIERDA
-			self.rect.x= self.rect_pantalla.left+self.rect.width
-		elif posicion==1:#CENTRO
-			#self.rect.x= self.rect_pantalla.centerx-self.rect.width	
-			self.rect.x= self.rect_pantalla.centerx	-(self.rect.width/2)
-		elif  posicion==2:#DERECHA 2
-			self.rect.x= self.rect_pantalla.right-2*self.rect.width						
-		"""
+
 		self.rect.centerx=posicion
 		
 	def dibuja(self):
 		""" Dibuja el bunker en su posicion """
 		self.pantalla.blit(self.image,self.rect)
-				
-	def update(self):
-		""" actualiza el estado/pos del bunker """
-		print ("update bunker")
-	
-	def modifica(self):
-		print ("modifica imagen explosion ")
 
+	def alcanzado(self,disparo):
+		""" Coordenada Disparo en el bunker disparo  """
+		#Analizar si puede descender mas 
+		self.image.bit(self.disparo,disparo)
+		
+	def profundidad(self,disparo):
+		""" mira si puede descender mas el disparo """
+		

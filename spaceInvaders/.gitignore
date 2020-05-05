@@ -1,5 +1,6 @@
 __pycache__/
 *.pyc
+test.py
 __pycache__/configuracion.cpython-35.pyc
 __pycache__/disparo.cpython-35.pyc
 __pycache__/funciones.cpython-35.pyc

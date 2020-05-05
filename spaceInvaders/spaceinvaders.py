@@ -61,14 +61,14 @@ def run():
 	boton=Boton(configuracion,pantalla,"Juega")
 	
 	#Crea un bunker
-	#bunker=Bunker(configuracion,pantalla,2)
-	bunkers=Group()
+	bunkers=pygame.sprite.Group()
 	func.crear_bunkers(configuracion,pantalla,bunkers)
+	
+	#print ("Grupos ",bunkers.sprites()[0].rect)
 	
 	#Sonidos juego
 	sonidos=Sonidos() 
-		
-		
+				
 	#Bucle principal
 	while True:
 		
@@ -89,7 +89,7 @@ def run():
 			
 			#Actualiza disparos Marcianos
 			func.actualiza_disparosMarcianos(configuracion,marcador,
-					pantalla,nave,marcianos,disparosM,sonidos) #Este update() esta en la clase disparo						
+					pantalla,bunkers,nave,marcianos,disparosM,sonidos) #Este update() esta en la clase disparo						
 			
 		func.actualiza_pantalla(configuracion,pantalla,informacion,marcador,
 						nave,marcianos,disparos,disparosM,boton,bunkers)
