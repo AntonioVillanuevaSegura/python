@@ -23,7 +23,11 @@ class Bunker(Sprite):
 		self.rect_pantalla=pantalla.get_rect() #rect de pantalla		
 				
 		#Disparo en el bunker
-		self.disparo=pygame.image.load('imagenes/bomba.xpm').convert_alpha()		
+		self.disparo=pygame.image.load('imagenes/bomba.xpm').convert_alpha()	
+		
+		#TEST A BORRAR 
+					
+		#self.image.blit(self.disparo, [0,50] )
 		
 		#Posicion centerx del bunquer
 		#self.rect.centerx=self.rect_pantalla.bottom
@@ -43,7 +47,16 @@ class Bunker(Sprite):
 	def alcanzado(self,disparo):
 		""" Coordenada Disparo en el bunker disparo  """
 		#Analizar si puede descender mas 
-		self.image.bit(self.disparo,disparo)
+		print ("B.left  = ",self.rect.left,"B.top  = ",self.rect.top," B.width ",self.rect.width,
+		" ,D.left  = ",disparo.rect.left,"D.top  = ",disparo.rect.bottom," dibuja en ",disparo.rect.centerx,
+		" , ",self.rect.top)		
+		
+		#Actualiza la imagen del bunker con el disparo recibido
+		#self.image.blit(self.disparo, (disparo.rect.centerx,self.rect.top) )
+		
+		#Dibuja en la posicion inicial .... !!!!
+		self.image.blit(self.disparo, [0,50] )
+
 		
 	def profundidad(self,disparo):
 		""" mira si puede descender mas el disparo """
