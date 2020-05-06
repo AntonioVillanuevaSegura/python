@@ -47,16 +47,26 @@ class Bunker(Sprite):
 	def alcanzado(self,disparo):
 		""" Coordenada Disparo en el bunker disparo  """
 		#Analizar si puede descender mas 
+		"""
 		print ("B.left  = ",self.rect.left,"B.top  = ",self.rect.top," B.width ",self.rect.width,
 		" ,D.left  = ",disparo.rect.left,"D.top  = ",disparo.rect.bottom," dibuja en ",disparo.rect.centerx,
 		" , ",self.rect.top)		
-		
+		"""
 		#Actualiza la imagen del bunker con el disparo recibido
 		#self.image.blit(self.disparo, (disparo.rect.centerx,self.rect.top) )
 		
 		#Dibuja en la posicion inicial .... !!!!
-		self.image.blit(self.disparo, [0,50] )
-
+		#self.image.blit(self.disparo, [0,50] )
+		
+		#reposicionar localmente el disparo
+		
+		xlocal = abs (disparo.rect.x - self.rect.x)
+		print (xlocal)
+		self.image.blit(self.disparo, [xlocal,0])		
+		"""
+		
+		self.image.blit(self.disparo, [xlocal,self.rect.top])
+"""
 		
 	def profundidad(self,disparo):
 		""" mira si puede descender mas el disparo """
