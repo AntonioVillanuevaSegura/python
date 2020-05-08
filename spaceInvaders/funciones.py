@@ -119,32 +119,23 @@ def actualiza_disparosMarcianos(configuracion,marcador,pantalla,bunkers,nave,mar
 			
 			
 	#Colision disparo con bunker ,disparo desaparece 
-	colision=pygame.sprite.groupcollide(bunkers,disparos,False,True)	
+	#colision=pygame.sprite.groupcollide(bunkers,disparos,False,True)	
+	colision=pygame.sprite.groupcollide(bunkers,disparos,False,False)	
 	
 	#El bunker ha recibido un disparo 
 	if (colision):
 		
-		#La key bunker ha sido alcanzada con un disparo
+		#La key (bunker) ha sido alcanzada con un disparo
 		x=colision.items()
 		
+		#Analiza keys(bunker) con los values(disparos)
 		for keys , values  in x:
-			#print (keys.rect, values[0].rect)	
-			#print (keys.rect, values[0].rect.centerx)
-			keys.alcanzado(values[0])
+			keys.alcanzado(values[0],disparos)
+			#elimina disparo al final  .....previo
+			#pygame.sprite.Group.remove
+			#disparos.remove(values[0])
+			
 
-		
-		"""		
-		
-		#Recupera la key bunker
-		x=colision.items()
-		
-		for keys , values  in x:
-			print (keys, values)		
-		#print ("keys =",colision.keys()," ,values =" ,colision.values()) 
-
-		for keys,values in colision.items():
-			print ("key = ",keys," , values = ",values)
-		"""
 
 			
 	#Detecta colision del sprite nave con algun disparo , True se elimina disparo

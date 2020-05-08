@@ -25,16 +25,6 @@ class Bunker(Sprite):
 		#Disparo en el bunker
 		self.disparo=pygame.image.load('imagenes/bomba.xpm').convert_alpha()	
 		
-		#TEST A BORRAR 
-					
-		#self.image.blit(self.disparo, [0,50] )
-		
-		#Posicion centerx del bunquer
-		#self.rect.centerx=self.rect_pantalla.bottom
-		
-		#Valor decimal representando posicion central bunker
-		#self.centro=float(self.rect.centerx)
-		
 		#Inicializo coordenada Y  segun configuracion
 		self.rect.y= self.configuracion.bunker_y	
 
@@ -44,30 +34,37 @@ class Bunker(Sprite):
 		""" Dibuja el bunker en su posicion """
 		self.pantalla.blit(self.image,self.rect)
 
-	def alcanzado(self,disparo):
+	def alcanzado(self,disparo,disparos):
 		""" Coordenada Disparo en el bunker disparo  """
-		#Analizar si puede descender mas 
-		"""
-		print ("B.left  = ",self.rect.left,"B.top  = ",self.rect.top," B.width ",self.rect.width,
-		" ,D.left  = ",disparo.rect.left,"D.top  = ",disparo.rect.bottom," dibuja en ",disparo.rect.centerx,
-		" , ",self.rect.top)		
-		"""
-		#Actualiza la imagen del bunker con el disparo recibido
-		#self.image.blit(self.disparo, (disparo.rect.centerx,self.rect.top) )
 		
-		#Dibuja en la posicion inicial .... !!!!
-		#self.image.blit(self.disparo, [0,50] )
+		#Analizar hasta donde puede descender el disparo 		
+		y=self.profundidad(disparo)
 		
-		#reposicionar localmente el disparo
 		
+		#Si no encuentra obstaculo hasta la base lo elimina
+
+		if y < self.rect.height -1:
+			disparos.remove(disparo)
+			
+		#La posicion local en eje X del disparo respecto al Bunker 0
 		xlocal = abs (disparo.rect.x - self.rect.x)
-		print (xlocal)
-		self.image.blit(self.disparo, [xlocal,0])		
-		"""
-		
-		self.image.blit(self.disparo, [xlocal,self.rect.top])
-"""
+
+		self.image.blit(self.disparo, [xlocal,y])		
+
 		
 	def profundidad(self,disparo):
 		""" mira si puede descender mas el disparo """
+		blanco=(255,255,255,255) #Color Blanco del bunker
+		xlocal = abs (disparo.rect.x - self.rect.x)
+		ylocal = 0
+		y=0
 		
+		#Analiza la vertical Y del bunker en esta coordenada
+		while y < (self.rect.height -1) :
+
+			if self.image.get_at( (xlocal,y) )==blanco:
+				return y
+			y+=1
+				
+		return y	
+	
