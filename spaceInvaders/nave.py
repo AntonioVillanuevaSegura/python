@@ -56,5 +56,15 @@ class Nave(Sprite):
 		""" centra en el centro de la pantalla ,la nave """
 		self.centro=(self.pantalla.get_rect()).centerx
 		
+	def explota (self):
+		#self.imagen=self.imagenExp1
+		self.pantalla.blit(self.imagenExp1,self.rect)
+		pygame.display.flip()
+		sleep(0.1)
+		self.pantalla.blit(self.imagenExp2,self.rect)
+		pygame.display.flip()				
+		sleep(0.1)
+		
+		
 						
 		

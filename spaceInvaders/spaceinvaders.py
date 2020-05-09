@@ -85,7 +85,7 @@ def run():
 			
 			#Actualiza si un marciano ha disparado , falta mostrarlo
 			func.actualiza_marcianos(configuracion,marcador,
-							pantalla,nave,marcianos,disparos,disparosM)			
+							pantalla,nave,marcianos,disparos,disparosM,bunkers)			
 			
 			#Actualiza disparos Marcianos
 			func.actualiza_disparosMarcianos(configuracion,marcador,

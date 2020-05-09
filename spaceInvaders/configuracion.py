@@ -14,7 +14,7 @@ class Configuracion():
 		#Configuracion de la nave
 		#Factor desplazamiento X de la nave
 		self.desplazamiento_nave=3
-		self.num_vidas=1 #NUMERO DE VIDAS DEL JUGADOE 		
+		self.num_vidas=2 #NUMERO DE VIDAS DEL JUGADOE 		
 		
 		#Configuracion de los Disparos
 		self.disparo_velocidad=20	
@@ -28,7 +28,8 @@ class Configuracion():
 		self.direccion_flota=1 # -1 izquierda 1 derecha
 		self.cambia_imagen=20
 		self.marciano_offset_x=75 #Centrado de la flota en la pantalla
-		self.numero_disparos_simultaneos=2 #Cuantos disparos a la vez
+		#self.numero_disparos_simultaneos=2 #Cuantos disparos a la vez
+		self.numero_disparos_simultaneos=8 #Cuantos disparos a la vez		
 				
 		self.num_marcianos_fila=11
 		self.num_marcianos_vertical=5
