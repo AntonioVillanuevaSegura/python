@@ -102,9 +102,15 @@ def actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos,sonidos):
 	#Detecta la colision disparo con  marcianos
 	colision=pygame.sprite.groupcollide (disparos,marcianos,True,True)
 	
+	#Marciano alcanzado disparo cambio de imagen 
 	if colision:
+		x=colision.items()
+
+		for values in x: #mira marciano
+			values[1][0].explota()
+			#marcianos.remove(values) #colision True,False
+			
 		sonidos.marciano_explota.play()
-		
 	
 	if (len(marcianos) == 0): #Han sido todos aniquilados
 		#Limpia disparos restantes y crear nueva flota
@@ -124,7 +130,6 @@ def actualiza_disparosMarcianos(configuracion,marcador,pantalla,bunkers,nave,mar
 			
 			
 	#Colision disparo con bunker ,disparo desaparece 
-	#colision=pygame.sprite.groupcollide(bunkers,disparos,False,True)	
 	colision=pygame.sprite.groupcollide(bunkers,disparos,False,False)	
 	
 	#El bunker ha recibido un disparo 

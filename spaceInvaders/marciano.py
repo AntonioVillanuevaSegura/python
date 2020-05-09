@@ -89,3 +89,9 @@ class Marciano(Sprite):
 		if random.randint(0,100)<=1:
 			return True
 		return False 
+
+	def explota (self):
+		""" explosion marciano """
+		self.pantalla.blit(self.explosion,self.rect)
+		pygame.display.flip()
+		

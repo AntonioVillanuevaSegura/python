@@ -57,7 +57,7 @@ class Nave(Sprite):
 		self.centro=(self.pantalla.get_rect()).centerx
 		
 	def explota (self):
-		#self.imagen=self.imagenExp1
+		""" explosion nave  """
 		self.pantalla.blit(self.imagenExp1,self.rect)
 		pygame.display.flip()
 		sleep(0.1)
