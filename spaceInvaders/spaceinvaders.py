@@ -80,7 +80,7 @@ def run():
 			nave.actualiza()
 			
 			#Actualiza TODOS los disparo en el GROUP pero es un disparo
-			func.actualiza_disparos(configuracion,pantalla,
+			func.actualiza_disparos(configuracion,marcador,pantalla,
 				nave,marcianos,disparos,sonidos) #Este update() esta en la clase disparo			
 			
 			#Actualiza si un marciano ha disparado , falta mostrarlo

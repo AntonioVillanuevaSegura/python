@@ -7,32 +7,43 @@ class Informaciones():
 		self.pantalla_rect=pantalla.get_rect() #rectangulo de pantalla
 		self.configuracion=configuracion
 		self.marcador=marcador
+		#self.marcador.puntos_jugador1
+		#self.marcador.puntos_jugador2
+		self.marcador.puntos_score=0				
 		
 		#Fuentes graficas
 		self.color_texto=(255,255,255) #Blanco
 		self.font = pygame.font.SysFont(None,48)
 		
 		#Imagen inicial, puntuaciones
-		self.puntuacion_inicial()
+		self.actualiza()
 
 	def dibuja(self):
 		""" dibuja marcador """
-		self.pantalla.blit(self.imagen_marcador,self.marcador_rectangulo)
+		self.actualiza()
+		
+		self.pantalla.blit(self.imagen_informacion,(0,0)) #Informacion		
+		
+		self.pantalla.blit(self.imagen_informacion2,(50,30))#Puntuaciones	
+		#Linea antes de la nave 
+		pygame.draw.line(self.pantalla, (255,255,255,255), (10, 730), (1190, 730), 4)		
 		
 
-	def puntuacion_inicial(self):
+	def actualiza(self):
 		
 		#str_puntuaciones=str(self.marcador.puntos_jugador1)
-		str_puntuaciones=5*" "+"SCORE<1>" +34*" "+ "HI-SCORE" +34*" "+"SCORE<2>"+ 34*" "
-		+10*" "+str(self.marcador.puntos_jugador1)+" -------------"
+		str_informacion=5*" "+"SCORE<1>" +34*" "+ "HI-SCORE" +34*" "+"SCORE<2>"
+		str_puntuaciones=5*" "+str(self.marcador.puntos_jugador1)
+		str_puntuaciones+= 47*" "+str(self.marcador.puntos_score)
 
-		self.imagen_marcador=self.font.render(str_puntuaciones,True,
-			self.color_texto,self.configuracion.color_pantalla)
-		
-		#Muestra puntuaciones en la parte superior
-		self.marcador_rectangulo = self.imagen_marcador.get_rect() #Rect imagen	
-		self.marcador_rectangulo.left = self.pantalla_rect.left  #izquierda
-		#self.marcador_rectangulo.top = 20
+		#Referencias superiores
+		self.imagen_informacion=self.font.render(str_informacion,True,
+			self.color_texto,self.configuracion.color_pantalla)	
+			
+		#2a. linea con puntuaciones 	
+		self.imagen_informacion2=self.font.render(str_puntuaciones,True,
+			self.color_texto,self.configuracion.color_pantalla)					
+
 
 
 

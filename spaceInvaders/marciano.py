@@ -11,6 +11,7 @@ class Marciano(Sprite):
 		self.pantalla=pantalla
 		self.pantalla_rect=pantalla.get_rect()
 		self.configuracion=configuracion
+		self.fila=fila #Nos va servir para dar la puntuacion 
 		
 		#Cargo imagenes que utiliza el marciano
 		#Segun la fila da el tipo de Alien

@@ -83,12 +83,14 @@ def actualiza_pantalla(configuracion,pantalla,informacion,
 		
 	#Dibujar bunker	
 	bunkers.draw(pantalla)
-		
-				
+	
+	#Pantalla puntuaciones
+	informacion.dibuja()
+						
 	#La version mas reciente la hace visible
 	pygame.display.flip()
 
-def actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos,sonidos):
+def actualiza_disparos(configuracion,marcador,pantalla,nave,marcianos,disparos,sonidos):
 	""" Actualiza ,limpia los disparos"""
 	
 	#actualiza las posiciones de los disparos 
@@ -108,10 +110,17 @@ def actualiza_disparos(configuracion,pantalla,nave,marcianos,disparos,sonidos):
 
 		for values in x: #mira marciano
 			values[1][0].explota()
-			#marcianos.remove(values) #colision True,False
+			#Puntuacion segun fila del rango , 0=30 1-2=20 3-4=10
+			fila=values[1][0].fila
+			if fila==0:
+				marcador.puntos_jugador1+=30 #Fila 0 30 ptos.
+			if fila==1 or fila==2:
+				marcador.puntos_jugador1+=20 #Fila 0 20 ptos.
+			if fila==3 or fila==4:
+				marcador.puntos_jugador1+=10 #Fila 0 10 ptos.				
 			
 		sonidos.marciano_explota.play()
-	
+		
 	if (len(marcianos) == 0): #Han sido todos aniquilados
 		#Limpia disparos restantes y crear nueva flota
 		crear_flota(configuracion,pantalla,nave,marcianos)
