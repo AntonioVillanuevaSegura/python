@@ -23,7 +23,8 @@ class Nave(Sprite):
 		
 		#Nave inicial ,en el CENTRO y INFERIOR de la pantalla
 		self.rect.centerx=self.rect_pantalla.bottom
-		self.rect.bottom=self.rect_pantalla.bottom
+		#self.rect.bottom=self.rect_pantalla.bottom
+		self.rect.y=configuracion.posicion_ny
 		
 		#Valor decimal representando la posicion central de la nave
 		self.centro=float(self.rect.centerx)

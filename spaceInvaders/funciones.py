@@ -70,6 +70,9 @@ def actualiza_pantalla(configuracion,pantalla,informacion,
 		
 	nave.dibuja()
 	
+	#Dibujar bunker	
+	bunkers.draw(pantalla)
+	
 	#Draw() en un grupo dibuja cada elemento definido en rect 
 	marcianos.draw (pantalla) #Emplea Group.Draw		
 		
@@ -80,9 +83,6 @@ def actualiza_pantalla(configuracion,pantalla,informacion,
 	
 	#Muestra la informacion de las puntuaciones , marcadores en pantalla
 	informacion.dibuja()
-		
-	#Dibujar bunker	
-	bunkers.draw(pantalla)
 	
 	#Pantalla puntuaciones
 	informacion.dibuja()
@@ -137,7 +137,9 @@ def actualiza_disparosMarcianos(configuracion,marcador,pantalla,bunkers,nave,mar
 	
 	#Recorre los disparos 
 	for disparo in disparos.copy():
-		if disparo.rect.bottom >=pantalla_rect.bottom: #La parte inf. llega al final
+		#configuracion.posicion_ny-20
+		#if disparo.rect.bottom >=pantalla_rect.bottom: #La parte inf. llega al final
+		if disparo.rect.bottom >=configuracion.posicion_ny+50: #La parte inf. llega al final		
 			disparos.remove(disparo) #elimina este disparo sale pantalla
 			
 			
@@ -206,7 +208,7 @@ def cambia_direccion_flota(configuracion,marcianos):
 		
 	configuracion.direccion_flota *=-1 #Aqui invierte el sentido !!!
 	
-def actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos,disparosM,bunkers):
+def actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos,disparosM,bunkers,sonidos):
 	""" actualiza posiciones de la flota marcianera """
 	borde_flota(configuracion,marcianos)	
 	marcianos.update() #Utiliza la actualizacion desde Group()
@@ -217,7 +219,7 @@ def actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos,
 		nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos,bunkers)
 		
 	#Mira si los marcianos han llegado abajo 
-	marcianos_abajo(configuracion,marcador,pantalla,nave,marcianos,disparos,bunkers)
+	marcianos_abajo(configuracion,marcador,pantalla,nave,marcianos,disparos,bunkers,sonidos)
 	
 	#Marciano efectua disparo ? ,
 	for marciano in marcianos.copy():
@@ -248,27 +250,30 @@ def nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos,sonid
 	crear_bunkers(configuracion,pantalla,bunkers)
 	
 	#recentra la nave
-	nave.centra()	
+	nave.centra()
 	
 	#Puntuaciones , marcador
 	marcador.reset()
+
 	
-	if marcador.num_vidas>0:#Si quedan vidas puede seguir jugando
-		marcador.num_vidas =-1 #una vida menos 
+	if marcador.num_vidas>1:#Si quedan vidas puede seguir jugando
+		marcador.num_vidas -=1 #una vida menos 
 		
 		sleep(0.5)
 	else:
 		marcador.juego_activo=False 
+		marcador.num_vidas=configuracion.num_vidas #Retoma el n° de naves
 
-def marcianos_abajo(configuracion,marcador,pantalla,nave,marcianos,disparos,bunkers):
+def marcianos_abajo(configuracion,marcador,pantalla,nave,marcianos,disparos,bunkers,sonidos):
 	"""Han llegado abajo los marcianos  """
-	pantalla=pantalla.get_rect() #obtengo el rectangulo de pantalla
+	#pantalla=pantalla.get_rect() #obtengo el rectangulo de pantalla
 	
 	#Recorro la marcianada , a ver si toca la parte inferior de la panta
 	for marciano in marcianos.sprites():
-		if marciano.rect.bottom >=pantalla.bottom:
+		#if marciano.rect.bottom >=pantalla.bottom:
+		if marciano.rect.bottom >=configuracion.posicion_ny-20:		
 			""" si llegan abajo han ganado , nave alcanzada """
-			nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos,bunkers) 
+			nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos,sonidos,bunkers) 
 			break
 		
 def boton_play(marcador,boton,raton_x,raton_y):
