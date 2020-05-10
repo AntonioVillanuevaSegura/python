@@ -8,7 +8,10 @@ class Marcador():
 		self.puntos_marcianos=0
 		self.puntos_jugador1=0
 		self.puntos_jugador2=0
+		self.puntos_score=0		
 		
 	def reset(self):
 		""" inicializa puntuaciones """
 		self.num_vidas=self.configuracion.num_vidas
+		self.puntos_jugador1=0
+		self.puntos_jugador2=0		

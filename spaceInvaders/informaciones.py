@@ -6,10 +6,7 @@ class Informaciones():
 		self.pantalla=pantalla
 		self.pantalla_rect=pantalla.get_rect() #rectangulo de pantalla
 		self.configuracion=configuracion
-		self.marcador=marcador
-		#self.marcador.puntos_jugador1
-		#self.marcador.puntos_jugador2
-		self.marcador.puntos_score=0				
+		self.marcador=marcador			
 		
 		#Fuentes graficas
 		self.color_texto=(255,255,255) #Blanco

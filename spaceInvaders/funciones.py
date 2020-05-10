@@ -119,6 +119,9 @@ def actualiza_disparos(configuracion,marcador,pantalla,nave,marcianos,disparos,s
 			if fila==3 or fila==4:
 				marcador.puntos_jugador1+=10 #Fila 0 10 ptos.				
 			
+		if (marcador.puntos_score <	marcador.puntos_jugador1):
+			marcador.puntos_score=marcador.puntos_jugador1
+			
 		sonidos.marciano_explota.play()
 		
 	if (len(marcianos) == 0): #Han sido todos aniquilados
@@ -246,6 +249,9 @@ def nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos,sonid
 	
 	#recentra la nave
 	nave.centra()	
+	
+	#Puntuaciones , marcador
+	marcador.reset()
 	
 	if marcador.num_vidas>0:#Si quedan vidas puede seguir jugando
 		marcador.num_vidas =-1 #una vida menos 
