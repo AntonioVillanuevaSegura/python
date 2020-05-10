@@ -5,7 +5,6 @@ from marciano import Marciano
 from bunker import Bunker
 from time import sleep #retardo entre juegos 
 
-
 def tecla_pulsada(evento,configuracion,pantalla,nave,disparos,sonidos):
 	""" respuesta a tecla pulsada """
 

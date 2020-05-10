@@ -1,6 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 import random
+from sonidos import Sonidos #Sonidos Juego
 
 class Marciano(Sprite):
 	""" Modelizamos un simple marciano ,heredamos de Sprite """
@@ -12,6 +13,10 @@ class Marciano(Sprite):
 		self.pantalla_rect=pantalla.get_rect()
 		self.configuracion=configuracion
 		self.fila=fila #Nos va servir para dar la puntuacion 
+		
+		self.sonido=Sonidos() #Instancia de sonidos
+		self.sonido_movimiento=1 #Sonido que se ejecuta hay cuatro
+		self.sonido_tempo=0 
 		
 		#Cargo imagenes que utiliza el marciano
 		#Segun la fila da el tipo de Alien
@@ -29,6 +34,7 @@ class Marciano(Sprite):
 		self.imageA=pygame.image.load(ALIEN0)			
 		self.imageB=pygame.image.load(ALIEN1)			
 		self.explosion=pygame.image.load('imagenes/AlienExplode.xpm')
+		
 		
 		self.cambia_imagen=configuracion.cambia_imagen #cada cuanto cambia
 		self.frame_imagen=1
@@ -57,6 +63,9 @@ class Marciano(Sprite):
 		self.rect.x = self.x
 		
 		self.imagen() #Cambia imagen segun paso
+		
+		self.musica()
+		#self.musica() #Ejecuta un sonido de la danza marciana
 			
 	def borde(self):
 		""" Si un marciano toca un borde de la pantalla cambia """
@@ -81,7 +90,8 @@ class Marciano(Sprite):
 				self.frame_imagen=2
 			else:
 				self.image=self.imageB
-				self.frame_imagen=1				
+				self.frame_imagen=1		
+							
 			
 		self.cambia_imagen -=1		
 			
@@ -95,4 +105,31 @@ class Marciano(Sprite):
 		""" explosion marciano """
 		self.pantalla.blit(self.explosion,self.rect)
 		pygame.display.flip()
+		
+	def musica(self):
+		""" sonido danza marcianos"""
+		print ("musica ",self.sonido_tempo)
+		if self.sonido_tempo>19 :
+			self.sonido_tempo=0
+			#Sonidos movimiento, danza marcianera
+			#pygame.mixer.stop()
+			if self.sonido_movimiento==1:
+				self.sonido.movimiento_1.play()	
+				
+			if self.sonido_movimiento==2:
+				self.sonido.movimiento_2.play()	
+				
+			if self.sonido_movimiento==3:
+				self.sonido.movimiento_3.play()										
+
+			if self.sonido_movimiento==4:
+				self.sonido.movimiento_4.play()					
+		
+			#Tipo de sonido relacionado al movimiento
+			if self.sonido_movimiento<5:	
+				self.sonido_movimiento+=1
+			else:
+				self.sonido_movimiento=1
+		else:
+			self.sonido_tempo+=1
 		

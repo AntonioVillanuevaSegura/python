@@ -1,6 +1,6 @@
-"""Space Invaders version Python3 por Antonio Villanueva Segura """
-""" http://computerarcheology.com/Arcade/SpaceInvaders/Code.html"""
-""" pip3 install pygame"""
+"""Space Invaders version Python3 por Antonio Villanueva Segura 
+debe instalarse pygame 
+ pip3 install pygame"""
 #https://github.com/thepasterover/alien_invasion/issues/1
 import pygame
 
