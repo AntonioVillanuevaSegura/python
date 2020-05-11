@@ -227,7 +227,11 @@ def actualiza_marcianos(configuracion,marcador,pantalla,nave,marcianos,disparos,
 			disparosM.add(Disparo(configuracion,pantalla,marciano,False)) #Anade disparos al grupo
 			
 	#Adapta la velocidad de forma proporcional al n° de marcianos
+
 	velocidad=configuracion.num_marcianos_fila * configuracion.num_marcianos_vertical/len(marcianos)
+	
+	sonidos.danza_marciana(velocidad)
+
 	configuracion.incrementa_velocidad(velocidad)
 
 def nave_alcanzada(configuracion,marcador,pantalla,nave,marcianos,disparos,sonidos,bunkers):	

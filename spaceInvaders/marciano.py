@@ -64,8 +64,8 @@ class Marciano(Sprite):
 		
 		self.imagen() #Cambia imagen segun paso
 		
-		self.musica()
-		#self.musica() #Ejecuta un sonido de la danza marciana
+		#self.musica()
+
 			
 	def borde(self):
 		""" Si un marciano toca un borde de la pantalla cambia """
@@ -108,8 +108,9 @@ class Marciano(Sprite):
 		
 	def musica(self):
 		""" sonido danza marcianos"""
-		print ("musica ",self.sonido_tempo)
-		if self.sonido_tempo>19 :
+		#print ("musica ",self.sonido_tempo)
+		
+		if self.sonido_tempo>35 :
 			self.sonido_tempo=0
 			#Sonidos movimiento, danza marcianera
 			#pygame.mixer.stop()
@@ -126,7 +127,7 @@ class Marciano(Sprite):
 				self.sonido.movimiento_4.play()					
 		
 			#Tipo de sonido relacionado al movimiento
-			if self.sonido_movimiento<5:	
+			if self.sonido_movimiento<6:	
 				self.sonido_movimiento+=1
 			else:
 				self.sonido_movimiento=1
