@@ -75,7 +75,7 @@ def run():
 				
 	#Bucle principal
 	while True:
-		sleep(0.01) 
+		sleep(0.01) #CPU usage 
 		#Mira eventos de teclado o raton		
 		func.analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos,sonidos)
 					
@@ -85,7 +85,7 @@ def run():
 			
 			#Actualiza TODOS los disparo en el GROUP pero es un disparo
 			func.actualiza_disparos(configuracion,marcador,pantalla,
-				nave,marcianos,disparos,sonidos) #Este update() esta en la clase disparo			
+				nave,marcianos,disparos,bunkers,sonidos) #Este update() esta en la clase disparo			
 			
 			#Actualiza si un marciano ha disparado , falta mostrarlo
 			func.actualiza_marcianos(configuracion,marcador,

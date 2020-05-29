@@ -34,37 +34,58 @@ class Bunker(Sprite):
 		""" Dibuja el bunker en su posicion """
 		self.pantalla.blit(self.image,self.rect)
 
-	def alcanzado(self,disparo,disparos):
+	def alcanzado(self,disparo,disparos,tipo=True):
 		""" Coordenada Disparo en el bunker disparo  """
 		
 		#Analizar hasta donde puede descender el disparo 		
-		y=self.profundidad(disparo)
-		
-		
+		y=self.profundidad(disparo,tipo)
+				
 		#Si no encuentra obstaculo hasta la base lo elimina
 
-		if y < self.rect.height -1:
-			disparos.remove(disparo)
+		if tipo:#Disparo de un marciano
+			if y < self.rect.height -1:
+				disparos.remove(disparo)
+		else:#Disparo de la nave
+			if y > 0:
+				disparos.remove(disparo)			
+			
 			
 		#La posicion local en eje X del disparo respecto al Bunker 0
 		xlocal = abs (disparo.rect.x - self.rect.x)
 
-		self.image.blit(self.disparo, [xlocal,y])		
+		if tipo:
+			self.image.blit(self.disparo, [xlocal,y])		
+		else:
+			#pygame.transform.flip(L_SQUIR_IMG, True, False)
+			self.image.blit(pygame.transform.flip(self.disparo,False,True),
+							[xlocal-5,y-22])
 
 		
-	def profundidad(self,disparo):
+	def profundidad(self,disparo,tipo=True):
 		""" mira si puede descender mas el disparo """
 		blanco=(255,255,255,255) #Color Blanco del bunker
 		xlocal = abs (disparo.rect.x - self.rect.x)
-		ylocal = 0
-		y=0
+
+		if tipo:
+			ylocal = 0
+		else:			
+			ylocal=self.rect.height-1
+			
+		y=ylocal
 		
 		#Analiza la vertical Y del bunker en esta coordenada
-		while y < (self.rect.height -1) :
-
-			if self.image.get_at( (xlocal,y) )==blanco:
-				return y
-			y+=1
+		if tipo:#Disparo marciano
+			while y < (self.rect.height -1) :
+				if self.image.get_at( (xlocal,y) )==blanco:
+					return y
+				y+=1
+				
+		else:#Disparo de la nave
+			while y > 0 :
+				if self.image.get_at( (xlocal,y) )==blanco:
+					return y
+				y-= 1			
+			
 				
 		return y	
 	

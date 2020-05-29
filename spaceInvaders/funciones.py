@@ -34,7 +34,6 @@ def tecla_liberada(evento,configuracion,pantalla,nave,disparos):
 def analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos,sonidos):
 	""" Analizamos teclas pulsadas o raton """
 
-
 	#Mira eventos de teclado o raton		
 	for evento in pygame.event.get():			
 		#Salida del juego
@@ -49,7 +48,6 @@ def analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos,sonidos)
 			
 		elif evento.type==pygame.KEYDOWN:#tecla pulsada
 			tecla_pulsada(evento,configuracion,pantalla,nave,disparos,sonidos)
-
 				
 		elif evento.type==pygame.KEYUP:#tecla liberada
 			tecla_liberada(evento,configuracion,pantalla,nave,disparos)			
@@ -89,7 +87,7 @@ def actualiza_pantalla(configuracion,pantalla,informacion,
 	#La version mas reciente la hace visible
 	pygame.display.flip()
 
-def actualiza_disparos(configuracion,marcador,pantalla,nave,marcianos,disparos,sonidos):
+def actualiza_disparos(configuracion,marcador,pantalla,nave,marcianos,disparos,bunkers,sonidos):
 	""" Actualiza ,limpia los disparos"""
 	
 	#actualiza las posiciones de los disparos 
@@ -99,6 +97,23 @@ def actualiza_disparos(configuracion,marcador,pantalla,nave,marcianos,disparos,s
 	for disparo in disparos.copy():
 		if disparo.rect.bottom <=0: #La parte inf. llega al final
 			disparos.remove(disparo) #elimina este disparo sale pantalla
+			
+			
+	#Detecta la colision disparo con bunker
+	colision=pygame.sprite.groupcollide (bunkers,disparos,False,False)	
+	
+	#El bunker ha recibido un disparo 
+	if (colision):
+		
+		#La key (bunker) ha sido alcanzada con un disparo
+		x=colision.items()
+		
+		#Analiza keys(bunker) con los values(disparos)
+		for keys , values  in x:
+			keys.alcanzado(values[0],disparos,False)
+	
+	
+	
 			
 	#Detecta la colision disparo con  marcianos
 	colision=pygame.sprite.groupcollide (disparos,marcianos,True,True)
