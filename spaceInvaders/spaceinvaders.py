@@ -16,6 +16,7 @@ from bunker import Bunker
 from informaciones import Informaciones #Muestra puntuaciones 
 from sonidos import Sonidos #Sonidos Juego
 import platform #Version python 
+from time import sleep #retardo entre juegos 
 
 #http://www.pygame.org/docs/tut/SpriteIntro.html
 
@@ -23,7 +24,10 @@ def run():
 	""" Inicio del juego y crea el screen del juego """
 	print (platform.python_version())	#Ver version python
 	
-	pygame.init()
+	#pygame.init()
+	#Alternativa al init para ganar velocidad
+	pygame.display.init()
+	pygame.font.init()
 		
 	configuracion=Configuracion() #Configuracion inicial del juego
 	
@@ -71,7 +75,7 @@ def run():
 				
 	#Bucle principal
 	while True:
-		
+		sleep(0.01) 
 		#Mira eventos de teclado o raton		
 		func.analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos,sonidos)
 					
