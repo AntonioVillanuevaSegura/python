@@ -65,7 +65,6 @@ class Marciano(Sprite):
 		self.imagen() #Cambia imagen segun paso
 		
 		#self.musica()
-
 			
 	def borde(self):
 		""" Si un marciano toca un borde de la pantalla cambia """

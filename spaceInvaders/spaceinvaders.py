@@ -68,14 +68,13 @@ def run():
 	bunkers=pygame.sprite.Group()
 	func.crear_bunkers(configuracion,pantalla,bunkers)
 	
-	#print ("Grupos ",bunkers.sprites()[0].rect)
-	
 	#Sonidos juego
 	sonidos=Sonidos() 
 				
 	#Bucle principal
 	while True:
 		sleep(0.01) #CPU usage 
+		
 		#Mira eventos de teclado o raton		
 		func.analiza_eventos(configuracion,pantalla,marcador,boton,nave,disparos,sonidos)
 					

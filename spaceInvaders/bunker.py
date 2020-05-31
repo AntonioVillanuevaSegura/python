@@ -59,7 +59,6 @@ class Bunker(Sprite):
 			#pygame.transform.flip(L_SQUIR_IMG, True, False)
 			self.image.blit(pygame.transform.flip(self.disparo,False,True),
 							[xlocal-5,y-22])
-
 		
 	def profundidad(self,disparo,tipo=True):
 		""" mira si puede descender mas el disparo """

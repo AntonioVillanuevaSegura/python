@@ -73,7 +73,6 @@ def actualiza_pantalla(configuracion,pantalla,informacion,
 	#Draw() en un grupo dibuja cada elemento definido en rect 
 	marcianos.draw (pantalla) #Emplea Group.Draw		
 		
-		
 	#Dibujar el boton si el juego esta inactivo  
 	if not marcador.juego_activo:
 		boton.dibuja()

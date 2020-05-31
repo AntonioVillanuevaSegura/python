@@ -8,7 +8,6 @@ class Configuracion():
 		self.ancho_pantalla=1200
 		self.alto_pantalla=800
 		self.color_pantalla=(0,0,0) #0,0,0 es NEGRO
-		#self.offset_superior=100 #Donde empieza la flota de marcianos
 		self.offset_superior=100 #Donde empieza la flota de marcianos		
 		
 		#Configuracion de la nave
@@ -29,7 +28,6 @@ class Configuracion():
 		self.direccion_flota=1 # -1 izquierda 1 derecha
 		self.cambia_imagen=20
 		self.marciano_offset_x=75 #Centrado de la flota en la pantalla
-		#self.numero_disparos_simultaneos=2 #Cuantos disparos a la vez
 		self.numero_disparos_simultaneos=2 #Cuantos disparos a la vez		
 				
 		self.num_marcianos_fila=11
